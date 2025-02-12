@@ -48,11 +48,29 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
                         height: 300px;
                         border: 1px solid #1b4f72;
                         background-color: white;
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr); /* Creates 2 equal columns */
+                        gap: 10px; /* Adds spacing between grid items */
+                        padding: 10px;
+                        box-sizing: border-box;
+                    }
+
+                    .grid-item {
+                        border: 1px solid #1b4f72;
                     }
                 `}
             </style>
             <div>
-                <div className="container-accessibility-menu"></div>
+                <div className="container-accessibility-menu">
+                <div className="grid-item">Item 1</div>
+                <div className="grid-item">Item 2</div>
+                <div className="grid-item">Item 3</div>
+                <div className="grid-item">Item 4</div>
+                <div className="grid-item">Item 5</div>
+                <div className="grid-item">Item 6</div>
+                <div className="grid-item">Item 7</div>
+                <div className="grid-item">Item 8</div>
+                </div>
             </div>
             <div className="container-accessibility-logo" onClick={() => handleClick()} title="Accessibility Component">
                 <AccessibilityImage height={props.height} width={props.width} fill="white" />
