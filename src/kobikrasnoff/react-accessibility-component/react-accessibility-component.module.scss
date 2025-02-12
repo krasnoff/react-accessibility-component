@@ -1,5 +1,14 @@
 .wrapper {
     position: fixed;
-    left: 0px;
     bottom: 60px;
+}
+
+.isWrapperClose {
+    left: -202px;
+    transition: left 1s ease-in-out;
+}
+
+.isWrapperOpen {
+    left: 0px;
+    transition: left 1s ease-in-out;
 }

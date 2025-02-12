@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import styles from './react-accessibility-component.module.scss';
-import accessibilityImage from './assets/accessibility_new_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg';
+import AccessibilityLogo from './components/accessibility-logo';
 
 interface AccessibilityComponentProps {
     text?: string;
@@ -9,39 +9,39 @@ interface AccessibilityComponentProps {
 
 const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text }) => {
     const hostRef = useRef<HTMLDivElement>(null);
+    const [componentOpenClose, setcomponentOpenClose] = useState<boolean>(true);
 
     useEffect(() => {
+        let openCloseComponentHandler: EventListenerOrEventListenerObject;
+
         if (hostRef.current && hostRef.current.shadowRoot === null) {
             const shadowDom = hostRef.current?.attachShadow({ mode: 'open' });
             if (shadowDom) {
                 const root = createRoot(shadowDom);
                 root.render(shadowDomJsxElement);
             }
+
+            openCloseComponentHandler = (evt: any) => {
+                setcomponentOpenClose(componentOpenClose => !componentOpenClose);
+            }
+
+            window.addEventListener('shadow-click', openCloseComponentHandler);
         }
     }, []);
 
+    
+
     const shadowDomJsxElement = 
     <div>
-        <style>
-            {`
-                .container {
-                    border: 1px solid #ccc;
-                    cursor: pointer;
-                    display: flex;
-                }
-                .container img {
-                    width: 24px;
-                    height: 24px;
-                }
-            `}
-        </style>
-        <div className="container">
-            <img src={accessibilityImage} alt="Accessibility icon" />
-        </div>
+        <AccessibilityLogo width='40px' height='40px' fill='blue' />
     </div>;
 
     return (
-        <div role="region" aria-label="Sample Accessibility Component" ref={hostRef} className={styles.wrapper}></div>
+        <div role="region" aria-label="Sample Accessibility Component" ref={hostRef} className={[
+            styles.wrapper, 
+            componentOpenClose && styles.isWrapperClose,
+            !componentOpenClose && styles.isWrapperOpen,
+        ].join(' ')}></div>
     );
 };
 
