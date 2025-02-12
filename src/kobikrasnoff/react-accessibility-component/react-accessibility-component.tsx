@@ -21,7 +21,7 @@ const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text })
                 root.render(shadowDomJsxElement);
             }
 
-            openCloseComponentHandler = (evt: any) => {
+            openCloseComponentHandler = () => {
                 setcomponentOpenClose(componentOpenClose => !componentOpenClose);
             }
 
