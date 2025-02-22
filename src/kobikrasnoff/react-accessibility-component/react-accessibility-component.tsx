@@ -21,8 +21,12 @@ const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text })
                 root.render(shadowDomJsxElement);
             }
 
-            openCloseComponentHandler = () => {
-                setcomponentOpenClose(componentOpenClose => !componentOpenClose);
+            openCloseComponentHandler = (event: Event) => {
+                // TODO - Add your logic here
+                if ((event as any).detail.message === 'OpenCloseComponent') {
+                    setcomponentOpenClose(componentOpenClose => !componentOpenClose);
+                }
+                
             }
 
             window.addEventListener('shadow-click', openCloseComponentHandler);

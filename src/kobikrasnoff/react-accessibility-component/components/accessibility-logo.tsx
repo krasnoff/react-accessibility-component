@@ -20,7 +20,7 @@ interface AccessibilityLogoProps {
 
 const AccessibilityLogo = (props: AccessibilityLogoProps) => {
     const [increaseText, setIncreasedState] = useState<boolean>(false);
-    const [fontSize, setFontSize] = useState<number>(0);
+    const [decreaseText, setDecreaseTextState] = useState<number>(0);
     const [grayScale, setGrayScale] = useState<boolean>(false);
     const [highContrast, setHighContrast] = useState<boolean>(false);
     const [lowContrast, setLowContrast] = useState<boolean>(false);
@@ -28,9 +28,9 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
     const [links, setLinks] = useState<boolean>(false);
     const [readableFonts, setReadableFonts] = useState<boolean>(false);
 
-    const map = {
+    const map: { [key in 'increaseText' | 'decreaseText' | 'grayScale' | 'highContrast' | 'lowContrast' | 'brightBackground' | 'links' | 'readableFonts']: (value: any) => void } = {
         increaseText: setIncreasedState,
-        fontSize: setFontSize,
+        decreaseText: setDecreaseTextState,
         grayScale: setGrayScale,
         highContrast: setHighContrast,
         lowContrast: setLowContrast,
@@ -49,14 +49,15 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
         dispatchEvent(customEvent);
     }
     
-    const handleClick = () => {
+    const handleClick = (message: string) => {
         dispatchExternalEvent('shadow-click', {
-            message: 'Clicked inside shadow DOM'
+            message: message
         });
     }
 
-    const handleMenuClick = () => {
-        setIncreasedState(increaseText => !increaseText);
+    const handleMenuClick = (arg: 'increaseText' | 'decreaseText' | 'grayScale' | 'highContrast' | 'lowContrast' | 'brightBackground' | 'links' | 'readableFonts') => {
+        map[arg]((state: any) => !state);
+        handleClick(arg);
     }
     
     return (<>
@@ -113,17 +114,17 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
             </style>
             <div>
                 <div className="container-accessibility-menu">
-                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick()}><MenuItem title="Increase Text" ImageSvgComponent={IncreaseTextSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className="grid-item"><MenuItem title="Decrease Text" ImageSvgComponent={DecreaseTextSvg} fill={'#1b4f72'} /></div>
-                    <div className="grid-item"><MenuItem title="Gray Scale" ImageSvgComponent={GrayScaleSvg} fill={'#1b4f72'} /></div>
-                    <div className="grid-item"><MenuItem title="High Contrast" ImageSvgComponent={HighContrastSvg} fill={'#1b4f72'} /></div>
-                    <div className="grid-item"><MenuItem title="Low Contrast" ImageSvgComponent={LowContrastSvg} fill={'#1b4f72'} /></div>
-                    <div className="grid-item"><MenuItem title="Bright Bg" ImageSvgComponent={BrightBackgroundSvg} fill={'#1b4f72'} /></div>
-                    <div className="grid-item"><MenuItem title="Links" ImageSvgComponent={LinksSvg} fill={'#1b4f72'} /></div>
-                    <div className="grid-item"><MenuItem title="Readable Fonts" ImageSvgComponent={ReadableFontsSvg} fill={'#1b4f72'} /></div>
+                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('increaseText')}><MenuItem title="Increase Text" ImageSvgComponent={IncreaseTextSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', decreaseText && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('decreaseText')}><MenuItem title="Decrease Text" ImageSvgComponent={DecreaseTextSvg} fill={decreaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', grayScale && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('grayScale')}><MenuItem title="Gray Scale" ImageSvgComponent={GrayScaleSvg} fill={grayScale ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', highContrast && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('highContrast')}><MenuItem title="High Contrast" ImageSvgComponent={HighContrastSvg} fill={highContrast ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', lowContrast && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('lowContrast')}><MenuItem title="Low Contrast" ImageSvgComponent={LowContrastSvg} fill={lowContrast ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', brightBackground && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('brightBackground')}><MenuItem title="Bright Bg" ImageSvgComponent={BrightBackgroundSvg} fill={brightBackground ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', links && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('links')}><MenuItem title="Links" ImageSvgComponent={LinksSvg} fill={links ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', readableFonts && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('readableFonts')}><MenuItem title="Readable Fonts" ImageSvgComponent={ReadableFontsSvg} fill={readableFonts ? '#FFFFFF' : '#1b4f72'} /></div>
                 </div>
             </div>
-            <div className="container-accessibility-logo" onClick={() => handleClick()} title="Accessibility Component">
+            <div className="container-accessibility-logo" onClick={() => handleClick('OpenCloseComponent')} title="Accessibility Component">
                 <AccessibilityImage height={props.height} width={props.width} fill="white" />
             </div>
         </div>
