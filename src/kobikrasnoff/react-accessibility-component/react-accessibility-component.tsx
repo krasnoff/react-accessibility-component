@@ -23,7 +23,7 @@ const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text })
 
             openCloseComponentHandler = (event: Event) => {
                 // TODO - Add your logic here
-                if ((event as any).detail.message === 'OpenCloseComponent') {
+                if ((event as CustomEvent).detail.message === 'OpenCloseComponent') {
                     setcomponentOpenClose(componentOpenClose => !componentOpenClose);
                 }
                 
