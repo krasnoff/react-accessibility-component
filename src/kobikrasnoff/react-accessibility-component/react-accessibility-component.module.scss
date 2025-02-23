@@ -12,3 +12,15 @@
     left: 0px;
     transition: left 1s ease-in-out;
 }
+
+:global(body.grayscale) {
+    filter: grayScale(100%)
+}
+
+:global(body.contrasthigh) {
+    filter: contrast(2)
+}
+
+:global(body.contrastlow) {
+    filter: contrast(0.5)
+}

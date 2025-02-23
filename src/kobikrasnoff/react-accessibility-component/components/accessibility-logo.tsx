@@ -10,34 +10,42 @@ import LinksSvg from '../assets/link_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg?
 import ReadableFontsSvg from '../assets/text_format_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg?react';
 
 import MenuItem from './menu-item';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
 interface AccessibilityLogoProps {
     width: string;
     height: string;
     fill: string;
 }
 
+type fontSize = 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1 | 1.2 | 1.4 | 1.6 | 1.8 | 2;
+
+enum FontSizeDirection {
+    DECREASE = -1,
+    SAME = 0,
+    INCREASE = 1
+}
+
 const AccessibilityLogo = (props: AccessibilityLogoProps) => {
     const [increaseText, setIncreasedState] = useState<boolean>(false);
-    const [decreaseText, setDecreaseTextState] = useState<number>(0);
+    const [decreaseText, setDecreaseTextState] = useState<boolean>(false);
+    const [fontSizeIndex, setFontSizeIndex] = useState<number>(5);
     const [grayScale, setGrayScale] = useState<boolean>(false);
-    const [highContrast, setHighContrast] = useState<boolean>(false);
-    const [lowContrast, setLowContrast] = useState<boolean>(false);
+    const [contrast, setContrast] = useState<1 | 0.5 | 2>(1);
     const [brightBackground, setBrightBackground] = useState<boolean>(false);
     const [links, setLinks] = useState<boolean>(false);
     const [readableFonts, setReadableFonts] = useState<boolean>(false);
 
-    const map: { [key in 'increaseText' | 'decreaseText' | 'grayScale' | 'highContrast' | 'lowContrast' | 'brightBackground' | 'links' | 'readableFonts']: (value: any) => void } = {
+    const map: { [key in 'increaseText' | 'decreaseText' | 'grayScale' | 'contrast' | 'brightBackground' | 'links' | 'readableFonts']: (value: any) => void } = {
         increaseText: setIncreasedState,
         decreaseText: setDecreaseTextState,
         grayScale: setGrayScale,
-        highContrast: setHighContrast,
-        lowContrast: setLowContrast,
+        contrast: setContrast,
         brightBackground: setBrightBackground,
         links: setLinks,
         readableFonts: setReadableFonts
     }
+
+    const fontSizeArr = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.6, 1.8, 2];
 
     const dispatchExternalEvent = (eventName: string, details: any) => {
         // Create and dispatch custom event that will bubble up
@@ -49,16 +57,63 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
         dispatchEvent(customEvent);
     }
     
-    const handleClick = (message: string) => {
+    const handleClick = (message: string, value?: any) => {
         dispatchExternalEvent('shadow-click', {
-            message: message
+            message: message,
+            value: value
         });
     }
 
     const handleMenuClick = (arg: 'increaseText' | 'decreaseText' | 'grayScale' | 'highContrast' | 'lowContrast' | 'brightBackground' | 'links' | 'readableFonts') => {
-        map[arg]((state: any) => !state);
-        handleClick(arg);
+        //map[arg]();
     }
+
+    //#region grayscale
+    
+    const handleGrayScaleMenuClick = () => {
+        setGrayScale((grayScale) => !grayScale);
+    }
+
+    useEffect(() => {
+        handleClick('grayScale', grayScale);
+    }, [grayScale]);
+
+    //#endregion
+
+    //#region contrast
+
+    const handleContrastClick = (value: 1 | 0.5 | 2) => {
+        if (contrast === 2 && value === 2 || contrast === 0.5 && value === 0.5) {
+            setContrast(1);
+        } else {
+            setContrast(value);
+        }
+    }
+
+    useEffect(() => {
+        handleClick('contrast', contrast);
+    }, [contrast]);
+
+    //#endregion
+    
+    //#region fontSize
+
+    const handleFontSizeClick = (dir: FontSizeDirection) => {
+        let index = fontSizeIndex;
+        if (dir === FontSizeDirection.DECREASE) {
+            index = fontSizeIndex - 1 >= 0 ? fontSizeIndex - 1 : 0;
+        } else if (dir === FontSizeDirection.INCREASE) {
+            index = fontSizeIndex + 1 < fontSizeArr.length ? fontSizeIndex + 1 : 0;
+        }
+
+        setFontSizeIndex(index)
+    };
+
+    useEffect(() => {
+        handleClick('fontSizeIndex', fontSizeIndex);
+    }, [fontSizeIndex]);
+
+    //#endregion 
     
     return (<>
         <style>
@@ -114,11 +169,11 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
             </style>
             <div>
                 <div className="container-accessibility-menu">
-                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('increaseText')}><MenuItem title="Increase Text" ImageSvgComponent={IncreaseTextSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', decreaseText && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('decreaseText')}><MenuItem title="Decrease Text" ImageSvgComponent={DecreaseTextSvg} fill={decreaseText ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', grayScale && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('grayScale')}><MenuItem title="Gray Scale" ImageSvgComponent={GrayScaleSvg} fill={grayScale ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', highContrast && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('highContrast')}><MenuItem title="High Contrast" ImageSvgComponent={HighContrastSvg} fill={highContrast ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', lowContrast && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('lowContrast')}><MenuItem title="Low Contrast" ImageSvgComponent={LowContrastSvg} fill={lowContrast ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.INCREASE)}><MenuItem title="Increase Text" ImageSvgComponent={IncreaseTextSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', decreaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.DECREASE)}><MenuItem title="Decrease Text" ImageSvgComponent={DecreaseTextSvg} fill={decreaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', grayScale && 'grid-item-active'].join(' ')} onClick={() => handleGrayScaleMenuClick()}><MenuItem title="Gray Scale" ImageSvgComponent={GrayScaleSvg} fill={grayScale ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', contrast === 2 && 'grid-item-active'].join(' ')} onClick={() => handleContrastClick(2)}><MenuItem title="High Contrast" ImageSvgComponent={HighContrastSvg} fill={contrast === 2 ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', contrast === 0.5 && 'grid-item-active'].join(' ')} onClick={() => handleContrastClick(0.5)}><MenuItem title="Low Contrast" ImageSvgComponent={LowContrastSvg} fill={contrast === 0.5 ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', brightBackground && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('brightBackground')}><MenuItem title="Bright Bg" ImageSvgComponent={BrightBackgroundSvg} fill={brightBackground ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', links && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('links')}><MenuItem title="Links" ImageSvgComponent={LinksSvg} fill={links ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', readableFonts && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('readableFonts')}><MenuItem title="Readable Fonts" ImageSvgComponent={ReadableFontsSvg} fill={readableFonts ? '#FFFFFF' : '#1b4f72'} /></div>
