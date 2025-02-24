@@ -28,16 +28,6 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
     const [links, setLinks] = useState<boolean>(false);
     const [readableFonts, setReadableFonts] = useState<boolean>(false);
 
-    const map: { [key in 'increaseText' | 'decreaseText' | 'grayScale' | 'contrast' | 'brightBackground' | 'links' | 'readableFonts']: (value: any) => void } = {
-        increaseText: setIncreasedState,
-        decreaseText: setDecreaseTextState,
-        grayScale: setGrayScale,
-        contrast: setContrast,
-        brightBackground: setBrightBackground,
-        links: setLinks,
-        readableFonts: setReadableFonts
-    }
-
     const fontSizeArr = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.6, 1.8, 2];
 
     const dispatchExternalEvent = (eventName: string, details: any) => {
@@ -55,10 +45,6 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
             message: message,
             value: value
         });
-    }
-
-    const handleMenuClick = (arg: 'increaseText' | 'decreaseText' | 'grayScale' | 'highContrast' | 'lowContrast' | 'brightBackground' | 'links' | 'readableFonts') => {
-        //map[arg]();
     }
 
     //#region grayscale
