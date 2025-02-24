@@ -8,6 +8,8 @@ import LowContrastSvg from '../assets/contrast_rtl_off_24dp_5F6368_FILL0_wght400
 import BrightBackgroundSvg from '../assets/brightness_empty_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg?react';
 import LinksSvg from '../assets/link_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg?react';
 import ReadableFontsSvg from '../assets/text_format_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg?react';
+import HeadersSvg from '../assets/format_h1_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg?react';
+import ListSvg from '../assets/list_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg?react';
 
 import MenuItem from './menu-item';
 import { useEffect, useState } from 'react';
@@ -189,8 +191,10 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
             </style>
             <div>
                 <div className="container-accessibility-menu">
-                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.INCREASE)}><MenuItem title="Increase Text" ImageSvgComponent={IncreaseTextSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', decreaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.DECREASE)}><MenuItem title="Decrease Text" ImageSvgComponent={DecreaseTextSvg} fill={decreaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.INCREASE)}><MenuItem title="Titles" ImageSvgComponent={HeadersSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.INCREASE)}><MenuItem title="Lists" ImageSvgComponent={ListSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.INCREASE)}><MenuItem title="Zoom In" ImageSvgComponent={IncreaseTextSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', decreaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.DECREASE)}><MenuItem title="Zoom Out" ImageSvgComponent={DecreaseTextSvg} fill={decreaseText ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', grayScale && 'grid-item-active'].join(' ')} onClick={() => handleGrayScaleMenuClick()}><MenuItem title="Gray Scale" ImageSvgComponent={GrayScaleSvg} fill={grayScale ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', contrast === 2 && 'grid-item-active'].join(' ')} onClick={() => handleContrastClick(2)}><MenuItem title="High Contrast" ImageSvgComponent={HighContrastSvg} fill={contrast === 2 ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', contrast === 0.5 && 'grid-item-active'].join(' ')} onClick={() => handleContrastClick(0.5)}><MenuItem title="Low Contrast" ImageSvgComponent={LowContrastSvg} fill={contrast === 0.5 ? '#FFFFFF' : '#1b4f72'} /></div>

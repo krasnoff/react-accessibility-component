@@ -9,11 +9,9 @@ interface AccessibilityComponentProps {
 
 const fontSizeArr = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.6, 1.8, 2];
 
-const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text }) => {
+const AccessibilityComponent: React.FC<AccessibilityComponentProps> = () => {
     const hostRef = useRef<HTMLDivElement>(null);
     const [componentOpenClose, setcomponentOpenClose] = useState<boolean>(true);
-
-    const [grayScale, setGrayScale] = useState<boolean>(false);
 
     useEffect(() => {
         let openCloseComponentHandler: EventListenerOrEventListenerObject;
@@ -47,10 +45,21 @@ const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text })
                         document.body.classList.add("contrastlow");
                     }
                 } else if ((event as CustomEvent).detail.message === 'fontSizeIndex') {
+                    let component = document.getElementById('container-accessibility-wrapper');
+                    
                     if (+(event as CustomEvent).detail.value === 5) {
-                        document.body.style.removeProperty('font-size');
+                        document.body.style.removeProperty('zoom');
+                        component?.style.removeProperty('transform');
+                        component?.style.removeProperty('transform-origin');
+                        component?.style.removeProperty('bottom');
                     } else {
-                        document.body.style.fontSize = fontSizeArr[+(event as CustomEvent).detail.value].toString() + 'em';
+                        document.body.style.zoom = fontSizeArr[+(event as CustomEvent).detail.value].toString();
+                        if (component) {
+                            component.style.transform = `scale(${1 / fontSizeArr[+(event as CustomEvent).detail.value]})`
+                            component.style.transformOrigin = 'bottom left'
+                            component.style.bottom = (60 * 1 / fontSizeArr[+(event as CustomEvent).detail.value]).toString() + 'px';
+                        }
+                        
                     }
                 } else if ((event as CustomEvent).detail.message === 'brightBackground') {
                     if ((event as CustomEvent).detail.value === true) {
@@ -105,9 +114,8 @@ const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text })
         <div role="region" aria-label="Sample Accessibility Component" ref={hostRef} className={[
             styles.wrapper, 
             componentOpenClose && styles.isWrapperClose,
-            !componentOpenClose && styles.isWrapperOpen,
-            grayScale && styles.globalGrayScale
-        ].join(' ')}></div>
+            !componentOpenClose && styles.isWrapperOpen
+        ].join(' ')} id="container-accessibility-wrapper"></div>
     );
 };
 
