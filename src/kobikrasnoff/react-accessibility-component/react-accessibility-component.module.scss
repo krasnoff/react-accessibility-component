@@ -24,3 +24,25 @@
 :global(body.contrastlow) {
     filter: contrast(0.5)
 }
+
+:global(body.grayscale-contrasthigh) {
+    filter: grayScale(100%) contrast(2)
+}
+
+:global(body.grayscale-contrastlow) {
+    filter: grayScale(100%) contrast(0.5)
+}
+
+:global(body.bright-background) {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+:global(body.readable-fonts) {
+    font-family: Verdana, Arial, Helvetica, sans-serif !important;
+}
+
+:global(body a) {
+    text-decoration: underline;
+    color: blue;
+}

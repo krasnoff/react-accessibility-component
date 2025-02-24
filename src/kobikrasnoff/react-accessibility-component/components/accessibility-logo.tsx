@@ -11,18 +11,11 @@ import ReadableFontsSvg from '../assets/text_format_24dp_5F6368_FILL0_wght400_GR
 
 import MenuItem from './menu-item';
 import { useEffect, useState } from 'react';
+import { FontSizeDirection } from '../enums/font-size-direction.enum';
 interface AccessibilityLogoProps {
     width: string;
     height: string;
     fill: string;
-}
-
-type fontSize = 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1 | 1.2 | 1.4 | 1.6 | 1.8 | 2;
-
-enum FontSizeDirection {
-    DECREASE = -1,
-    SAME = 0,
-    INCREASE = 1
 }
 
 const AccessibilityLogo = (props: AccessibilityLogoProps) => {
@@ -71,7 +64,9 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
     //#region grayscale
     
     const handleGrayScaleMenuClick = () => {
+        setContrast(1);
         setGrayScale((grayScale) => !grayScale);
+        
     }
 
     useEffect(() => {
@@ -83,6 +78,7 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
     //#region contrast
 
     const handleContrastClick = (value: 1 | 0.5 | 2) => {
+        setGrayScale(false);
         if (contrast === 2 && value === 2 || contrast === 0.5 && value === 0.5) {
             setContrast(1);
         } else {
@@ -103,9 +99,11 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
         if (dir === FontSizeDirection.DECREASE) {
             index = fontSizeIndex - 1 >= 0 ? fontSizeIndex - 1 : 0;
         } else if (dir === FontSizeDirection.INCREASE) {
-            index = fontSizeIndex + 1 < fontSizeArr.length ? fontSizeIndex + 1 : 0;
+            index = fontSizeIndex + 1 < fontSizeArr.length ? fontSizeIndex + 1 : fontSizeArr.length - 1;
         }
 
+        setDecreaseTextState(index < 5);
+        setIncreasedState(index > 5);
         setFontSizeIndex(index)
     };
 
@@ -115,13 +113,49 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
 
     //#endregion 
     
+    //#region white background
+
+    const handleWhiteBackgroundClick = () => {
+        setBrightBackground((brightBackground) => !brightBackground);
+    }
+
+    useEffect(() => {
+        handleClick('brightBackground', brightBackground);
+    }, [brightBackground]);
+
+    //#endregion
+    
+    //#region readable fonts
+    
+    const handleReadableFontClick = () => {
+        setReadableFonts((readableFonts) => !readableFonts);
+    }
+
+    useEffect(() => {
+        handleClick('readableFonts', readableFonts);
+    }, [readableFonts]);
+
+    //#endregion
+
+    //#region mark-hyperlinks
+
+    const handleMarkHyperlinkClick = () => {
+        setLinks((links) => !links);
+    }
+
+    useEffect(() => {
+        handleClick('markHyperlinks', links);
+    }, [links]);
+
+    //#endregion
+    
     return (<>
         <style>
             {`
                 .container-accessibility-wrapper {
                     display: flex;
                     align-items: flex-end;
-                    font-family: Arial, Helvetica, sans-serif
+                    font-family: Arial, Helvetica, sans-serif;
                 }
             `}
         </style>
@@ -174,9 +208,9 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
                     <div className={['grid-item', grayScale && 'grid-item-active'].join(' ')} onClick={() => handleGrayScaleMenuClick()}><MenuItem title="Gray Scale" ImageSvgComponent={GrayScaleSvg} fill={grayScale ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', contrast === 2 && 'grid-item-active'].join(' ')} onClick={() => handleContrastClick(2)}><MenuItem title="High Contrast" ImageSvgComponent={HighContrastSvg} fill={contrast === 2 ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', contrast === 0.5 && 'grid-item-active'].join(' ')} onClick={() => handleContrastClick(0.5)}><MenuItem title="Low Contrast" ImageSvgComponent={LowContrastSvg} fill={contrast === 0.5 ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', brightBackground && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('brightBackground')}><MenuItem title="Bright Bg" ImageSvgComponent={BrightBackgroundSvg} fill={brightBackground ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', links && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('links')}><MenuItem title="Links" ImageSvgComponent={LinksSvg} fill={links ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', readableFonts && 'grid-item-active'].join(' ')} onClick={() => handleMenuClick('readableFonts')}><MenuItem title="Readable Fonts" ImageSvgComponent={ReadableFontsSvg} fill={readableFonts ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', brightBackground && 'grid-item-active'].join(' ')} onClick={() => handleWhiteBackgroundClick()}><MenuItem title="Bright Bg" ImageSvgComponent={BrightBackgroundSvg} fill={brightBackground ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', links && 'grid-item-active'].join(' ')} onClick={() => handleMarkHyperlinkClick()}><MenuItem title="Links" ImageSvgComponent={LinksSvg} fill={links ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', readableFonts && 'grid-item-active'].join(' ')} onClick={() => handleReadableFontClick()}><MenuItem title="Readable Fonts" ImageSvgComponent={ReadableFontsSvg} fill={readableFonts ? '#FFFFFF' : '#1b4f72'} /></div>
                 </div>
             </div>
             <div className="container-accessibility-logo" onClick={() => handleClick('OpenCloseComponent')} title="Accessibility Component">

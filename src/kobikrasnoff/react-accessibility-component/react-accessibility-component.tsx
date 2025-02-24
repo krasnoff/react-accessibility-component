@@ -7,6 +7,8 @@ interface AccessibilityComponentProps {
     text?: string;
 }
 
+const fontSizeArr = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.6, 1.8, 2];
+
 const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text }) => {
     const hostRef = useRef<HTMLDivElement>(null);
     const [componentOpenClose, setcomponentOpenClose] = useState<boolean>(true);
@@ -28,6 +30,8 @@ const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text })
                 if ((event as CustomEvent).detail.message === 'OpenCloseComponent') {
                     setcomponentOpenClose(componentOpenClose => !componentOpenClose);
                 } else if ((event as CustomEvent).detail.message === 'grayScale') {
+                    document.body.classList.remove("contrasthigh");
+                    document.body.classList.remove("contrastlow");
                     if ((event as CustomEvent).detail.value) {
                         document.body.classList.add("grayscale"); 
                     }  else {
@@ -42,8 +46,48 @@ const AccessibilityComponent: React.FC<AccessibilityComponentProps> = ({ text })
                     if ((event as CustomEvent).detail.value === 0.5) {
                         document.body.classList.add("contrastlow");
                     }
+                } else if ((event as CustomEvent).detail.message === 'fontSizeIndex') {
+                    if (+(event as CustomEvent).detail.value === 5) {
+                        document.body.style.removeProperty('font-size');
+                    } else {
+                        document.body.style.fontSize = fontSizeArr[+(event as CustomEvent).detail.value].toString() + 'em';
+                    }
+                } else if ((event as CustomEvent).detail.message === 'brightBackground') {
+                    if ((event as CustomEvent).detail.value === true) {
+                        document.body.classList.add("bright-background");
+                    } else {
+                        document.body.classList.remove("bright-background");
+                    }
+                } else if ((event as CustomEvent).detail.message === 'readableFonts') {
+                    if ((event as CustomEvent).detail.value === true) {
+                        document.body.classList.add("readable-fonts");
+                    } else {
+                        document.body.classList.remove("readable-fonts");
+                    }
+                } else if ((event as CustomEvent).detail.message === 'markHyperlinks') {
+                    if ((event as CustomEvent).detail.value === true) {
+                        styleAllLinks();
+                    } else {
+                        resetLinkStyles();
+                    }
                 }
                 
+            }
+
+            const styleAllLinks = () => {
+                const links = document.querySelectorAll('a');
+                links.forEach(link => {
+                  link.style.textDecoration = 'underline';
+                  link.style.color = 'blue';
+                });
+            }
+
+            const resetLinkStyles = () => {
+                const links = document.querySelectorAll('a');
+                links.forEach(link => {
+                  link.style.textDecoration = '';
+                  link.style.color = '';
+                });
             }
 
             window.addEventListener('shadow-click', openCloseComponentHandler);
