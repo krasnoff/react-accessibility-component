@@ -29,6 +29,8 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
     const [brightBackground, setBrightBackground] = useState<boolean>(false);
     const [links, setLinks] = useState<boolean>(false);
     const [readableFonts, setReadableFonts] = useState<boolean>(false);
+    const [listsMark, setListsMark] = useState<boolean>(false);
+    const [titlesMark, setTitlesMark] = useState<boolean>(false);
 
     const fontSizeArr = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.6, 1.8, 2];
 
@@ -137,6 +139,30 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
 
     //#endregion
     
+    //#region handle lists mark click
+
+    const handleMarkListsClick = () => {
+        setListsMark(listsMark => !listsMark);
+    }
+
+    useEffect(() => {
+        handleClick('listsMark', listsMark);
+    }, [listsMark]);    
+
+    //#endregion
+
+    //#region handle lists mark click
+
+    const handleMarkTitlesClick = () => {
+        setTitlesMark(titlesMark => !titlesMark);
+    }
+
+    useEffect(() => {
+        handleClick('titlesMark', titlesMark);
+    }, [titlesMark]);    
+
+    //#endregion
+    
     return (<>
         <style>
             {`
@@ -191,8 +217,8 @@ const AccessibilityLogo = (props: AccessibilityLogoProps) => {
             </style>
             <div>
                 <div className="container-accessibility-menu">
-                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.INCREASE)}><MenuItem title="Titles" ImageSvgComponent={HeadersSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
-                    <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.INCREASE)}><MenuItem title="Lists" ImageSvgComponent={ListSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', titlesMark && 'grid-item-active'].join(' ')} onClick={() => handleMarkTitlesClick()}><MenuItem title="Titles" ImageSvgComponent={HeadersSvg} fill={titlesMark ? '#FFFFFF' : '#1b4f72'} /></div>
+                    <div className={['grid-item', listsMark && 'grid-item-active'].join(' ')} onClick={() => handleMarkListsClick()}><MenuItem title="Lists" ImageSvgComponent={ListSvg} fill={listsMark ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', increaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.INCREASE)}><MenuItem title="Zoom In" ImageSvgComponent={IncreaseTextSvg} fill={increaseText ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', decreaseText && 'grid-item-active'].join(' ')} onClick={() => handleFontSizeClick(FontSizeDirection.DECREASE)}><MenuItem title="Zoom Out" ImageSvgComponent={DecreaseTextSvg} fill={decreaseText ? '#FFFFFF' : '#1b4f72'} /></div>
                     <div className={['grid-item', grayScale && 'grid-item-active'].join(' ')} onClick={() => handleGrayScaleMenuClick()}><MenuItem title="Gray Scale" ImageSvgComponent={GrayScaleSvg} fill={grayScale ? '#FFFFFF' : '#1b4f72'} /></div>

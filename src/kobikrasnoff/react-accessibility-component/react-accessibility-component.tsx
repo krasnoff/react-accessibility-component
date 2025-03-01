@@ -79,8 +79,62 @@ const AccessibilityComponent: React.FC<AccessibilityComponentProps> = () => {
                     } else {
                         resetLinkStyles();
                     }
+                } else if ((event as CustomEvent).detail.message === 'listsMark') {
+                    if ((event as CustomEvent).detail.value === true) {
+                        styleAllList();
+                    } else {
+                        resetListsStyles();
+                    }
+                }  else if ((event as CustomEvent).detail.message === 'titlesMark') {
+                    if ((event as CustomEvent).detail.value === true) {
+                        styleAllTitle('h1');
+                        styleAllTitle('h2');
+                        styleAllTitle('h3');
+                        styleAllTitle('h4');
+                        styleAllTitle('h5');
+                        styleAllTitle('h6');
+                    } else {
+                        resetTitlesStyles('h1');
+                        resetTitlesStyles('h2');
+                        resetTitlesStyles('h3');
+                        resetTitlesStyles('h4');
+                        resetTitlesStyles('h5');
+                        resetTitlesStyles('h6');
+                    }
                 }
                 
+            }
+
+            const styleAllList = () => {
+                const els = document.querySelectorAll('li');
+                for (let el of els) {
+                    el.style.border = '1px dotted blue';
+                    el.style.color = 'blue';
+                }
+            }
+
+            const resetListsStyles = () => {
+                const links = document.querySelectorAll('li');
+                links.forEach(link => {
+                  link.style.border = '';
+                  link.style.color = '';
+                });
+            }
+
+            const styleAllTitle = (element: string) => {
+                const els = document.getElementsByTagName(element);
+                for (let el of els) {
+                    (el as HTMLHeadingElement).style.border = '1px dotted blue';
+                    (el as HTMLHeadingElement).style.color = 'blue';
+                }
+            }
+
+            const resetTitlesStyles = (element: string) => {
+                const els = document.getElementsByTagName(element);
+                for (let el of els) {
+                    (el as HTMLHeadingElement).style.border = '';
+                    (el as HTMLHeadingElement).style.color = '';
+                }
             }
 
             const styleAllLinks = () => {

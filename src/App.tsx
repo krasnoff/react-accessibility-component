@@ -26,6 +26,14 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
+      <div className="card">
+        <ul>
+          <li>one</li>
+          <li>two</li>
+          <li>three</li>
+          <li>four</li>
+        </ul>
+      </div>
       <p className="read-the-docs">
         Click on the Vite and <a href="https://react.dev/" target="_blank" className="text-link">React</a> logos to learn more
       </p>
