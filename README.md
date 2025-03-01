@@ -42,3 +42,7 @@ export default App;
 Using `AccessibilityComponent` alone does not guarantee full accessibility compliance. It is the responsibility of developers to build their web applications following the [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) accessibility standards. This includes proper semantic HTML, keyboard navigability, sufficient color contrast, and providing alternative text for images, among other requirements.
 
 For comprehensive guidance on making your website accessible, refer to the official [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) guidelines.
+
+## License
+
+This component is open-source and available under the MIT License.
